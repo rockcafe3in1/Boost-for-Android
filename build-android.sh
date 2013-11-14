@@ -96,8 +96,7 @@ echo "Building boost version: $BOOST_VER1.$BOOST_VER2.$BOOST_VER3"
 # -----------------------
 # Build constants
 # -----------------------
-
-BOOST_DOWNLOAD_LINK="http://downloads.sourceforge.net/project/boost/boost/$BOOST_VER1.$BOOST_VER2.$BOOST_VER3/boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fboost%2Ffiles%2Fboost%2F${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}%2F&ts=1291326673&use_mirror=garr"
+BOOST_DOWNLOAD_LINK="http://jaist.dl.sourceforge.net/project/boost/boost/$BOOST_VER1.$BOOST_VER2.$BOOST_VER3/boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fboost%2Ffiles%2Fboost%2F${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}%2F&ts=1291326673&use_mirror=garr"
 BOOST_TAR="boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2"
 BOOST_DIR="boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
 BUILD_DIR="./build/"
@@ -164,46 +163,54 @@ case "$HOST_OS" in
         PlatformOS=linux
 esac
 
+
 NDK_RELEASE_FILE=$AndroidNDKRoot"/RELEASE.TXT"
 NDK_RN=`cat $NDK_RELEASE_FILE | sed 's/^r\(.*\)$/\1/g'`
 
 echo "Detected Android NDK version $NDK_RN"
 
 case "$NDK_RN" in
-	4*)
-		CXXPATH=$AndroidNDKRoot/build/prebuilt/$PlatformOS-x86/arm-eabi-4.4.0/bin/arm-eabi-g++
-		TOOLSET=gcc-androidR4
-		;;
-	5*)
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR5
-		;;
-	7-crystax-5.beta3)
-		EABI_VER=4.6.3
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-$EABI_VER/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR7crystax5beta3
-		;;
-	8)
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR8
-		;;
-	8b|8c|8d)
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR8b
-		;;
-	8e|9*)
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR8e
-		;;
-	"8e (64-bit)")
-		CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
-		TOOLSET=gcc-androidR8e
-		;;
-	*)
-		echo "Undefined or not supported Android NDK version!"
-		exit 1
+        4*)
+                CXXPATH=$AndroidNDKRoot/build/prebuilt/$PlatformOS-x86/arm-eabi-4.4.0/bin/arm-eabi-g++
+                TOOLSET=gcc-androidR4
+                ;;
+        5*)
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR5
+                ;;
+        7-crystax-5.beta3)
+                EABI_VER=4.6.3
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-$EABI_VER/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR7crystax5beta3
+                ;;
+        8)
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR8
+                ;;
+        8b|8c|8d)
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR8b
+                ;;
+        8e)
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR8e
+                ;;
+        "8e (64-bit)")
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.6/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR8e
+                ;;
+        9)
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.8/prebuilt/$PlatformOS-x86/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR9
+                ;;
+        "9b (64-bit)")
+                CXXPATH=$AndroidNDKRoot/toolchains/arm-linux-androideabi-4.8/prebuilt/${PlatformOS}-x86_64/bin/arm-linux-androideabi-g++
+                TOOLSET=gcc-androidR9
+                ;;
+        *)
+                echo "Undefined or not supported Android NDK version!"
+                exit 1
 esac
-
 
 echo Building with TOOLSET=$TOOLSET CXXPATH=$CXXPATH CXXFLAGS=$CXXFLAGS | tee $PROGDIR/build.log
 
